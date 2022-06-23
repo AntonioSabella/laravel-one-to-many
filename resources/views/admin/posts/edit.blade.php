@@ -22,6 +22,16 @@
                 <input type="text" name="cover_image" id="cover_image" class="form-control  @error('cover_image') is-invalid @enderror" placeholder="Aggiorna immagine" aria-describedby="cover_imageHelper" value="{{old('cover_image', $post->cover_image)}}">
                 <small id="cover_imageHelper" class="text-muted">Aggiorna immagine</small>
             </div>
+            <div class="form-group">
+                <label for="category_id">Categories</label>
+                <select class="form-control" name="category_id" id="category_id">
+                    <option value="">Select a category</option>
+                    @foreach($categories as $category)
+                    <option value="{{$category->id}}" {{$category->id == old('category', $post->category_id) ? 'selected' : ''}}>{{$category->name}}</option>
+                    @endforeach
+
+                </select>
+            </div>
         </div>
         <div class="mb-4">
             <label for="content">Corpo</label>

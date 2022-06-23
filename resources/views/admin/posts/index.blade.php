@@ -18,6 +18,7 @@
                 <th>Id</th>
                 <th>Titolo</th>
                 <th>Slug</th>
+                <th>Category</th>
                 <th>Immagine</th>
                 <th>Azioni</th>
             </tr>
@@ -29,6 +30,8 @@
                 <td scope="row">{{$post->id}}</td>
                 <td>{{$post->title}}</td>
                 <td>{{$post->slug}}</td>
+                <td>Category: {{ $post->category ? $post->category->name : 'Uncategorized'}}</td>
+
                 <td><img height="150" width='200' src="{{$post->cover_image}}" alt="Cover image {{$post->title}}"></td>
                 <td class='d-flex gap-1'>
                     <a class="btn btn-primary text-white btn-sm" href="{{route('admin.posts.show', $post->slug)}}">

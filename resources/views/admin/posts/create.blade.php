@@ -17,6 +17,16 @@
         <small id="cover_imageHelper" class="text-muted">Inserisci l'immagine del post</small>
     </div>
     <div class="mb-4">
+     <label for="category_id">Categories</label>
+     <select class="form-control" name="category_id" id="category_id">
+        <option value="">Select a category</option>
+        @foreach($categories as $category)
+        <option value="{{$category->id}}">{{$category->name}}</option>
+        @endforeach
+
+     </select>
+</div>
+    <div class="mb-4">
         <label for="content">Corpo</label>
         <textarea class="form-control  @error('content') is-invalid @enderror" name="content" id="content" rows="4">
         {{old('content')}}
