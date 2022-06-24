@@ -8,7 +8,6 @@ use App\Http\Requests\PostRequest;
 use App\Models\Category;
 
 
-
 class PostController extends Controller
 {
     /**

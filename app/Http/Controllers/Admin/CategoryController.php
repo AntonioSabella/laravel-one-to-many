@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
@@ -14,7 +17,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $cates = Category::orderByDesc('id')->get();
+        return view('admin.categories.index', compact('cates'));
     }
 
     /**
@@ -24,7 +28,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        // Not used
     }
 
     /**
@@ -35,7 +39,22 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //dd($request->all());
+
+        // Validare
+        $val_data = $request->validate([
+            'name' => ['required','unique:categories']
+        ]);
+        // generate slug
+        $slug = Str::slug($request->name);
+        $val_data['slug'] = $slug;
+
+        // salvare
+
+        Category::create($val_data);
+
+        // redirect
+        return redirect()->back()->with('message', "Categoria $slug aggiunta con successo");
     }
 
     /**
@@ -46,7 +65,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        // Not used
     }
 
     /**
@@ -57,7 +76,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        // Not used
     }
 
     /**
@@ -69,7 +88,17 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        //dd($request->all());
+
+        $val_data = $request->validate([
+            'name' => ['required', Rule::unique('categories')->ignore($category)]
+        ]);
+        // generate slug
+        $slug = Str::slug($request->name);
+        $val_data['slug'] = $slug;
+
+        $category->update($val_data);
+        return redirect()->back()->with('message', "Categoria $slug modificata con successo");
     }
 
     /**
@@ -80,6 +109,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect()->back()->with('message', "Categoria $category->name rimosso con successo");
     }
 }
